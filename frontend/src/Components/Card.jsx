@@ -18,7 +18,7 @@ export default function Card({ id, name, price, category, image }) {
 
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/cart/add/${id}`,
+        `/api/cart/add/${id}`,
         { quantity: 1 },
         {
           headers: {

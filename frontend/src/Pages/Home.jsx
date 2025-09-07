@@ -11,10 +11,10 @@ export default function Home({search}) {
 useEffect(() => {
   async function getItems() {
     try {
-      let url = "http://localhost:8080/api/items";
+      let url = "/api/items";
       
       if (search && search.trim() !== "") {
-        url = `http://localhost:8080/api/items/search?q=${encodeURIComponent(search)}`;
+        url = `/api/items/search?q=${encodeURIComponent(search)}`;
       }
 
       const result = await axios.get(url, { withCredentials: true });

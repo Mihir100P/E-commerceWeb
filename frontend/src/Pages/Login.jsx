@@ -23,7 +23,7 @@ const Login = () => {
     setError("");
 
     try {
-      const result = await axios.post("http://localhost:8080/api/user/login", {
+      const result = await axios.post("/api/user/login", {
         email: data.email,
         password: data.password,
       });

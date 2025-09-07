@@ -13,7 +13,7 @@ export default function Home() {
     async function getCartItems() {
       try {
         const token = localStorage.getItem("token");
-        const result = await axios.get("http://localhost:8080/api/cart", {
+        const result = await axios.get("/api/cart", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -32,7 +32,7 @@ export default function Home() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:8080/api/cart/remove",
+        "/api/cart/remove",
         { itemId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -51,7 +51,7 @@ export default function Home() {
         return;
       }
       await axios.post(
-        `http://localhost:8080/api/cart/update/${itemId}`,
+        `/api/cart/update/${itemId}`,
         { quantity: qty },
         { headers: { Authorization: `Bearer ${token}` } }
       );
