@@ -65,6 +65,7 @@ export default function Home() {
       console.error(err);
     }
   };
+
   const { totalItems, totalAmount } = useMemo(() => {
     let items = 0;
     let amount = 0;
@@ -76,7 +77,9 @@ export default function Home() {
   }, [cart]);
 
   const handleBuyAll = () => {
-    toast.success(`You purchased ${totalItems} items for $${totalAmount.toFixed(2)}`);
+    toast.success(
+      `You purchased ${totalItems} items for $${totalAmount.toFixed(2)}`
+    );
   };
 
   return (
@@ -88,7 +91,10 @@ export default function Home() {
       ) : (
         <>
           {cart.map((item) => (
-            <div key={item.itemId._id} className="cart-item shadow-sm p-3 mb-3 rounded d-flex align-items-center">
+            <div
+              key={item.itemId._id}
+              className="cart-item shadow-sm p-3 mb-3 rounded d-flex align-items-center flex-wrap"
+            >
               <div className="cart-img me-3">
                 <img
                   src={item.itemId.image}
@@ -102,7 +108,7 @@ export default function Home() {
                 <p className="cart-price text-success fw-bold">
                   ${item.itemId.price.toFixed(2)}
                 </p>
-                <div className="cart-actions d-flex align-items-center gap-3">
+                <div className="cart-actions d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2 mt-2">
                   <div className="quantity-control d-flex align-items-center border rounded px-2">
                     <button
                       className="btn btn-sm btn-light"
@@ -128,15 +134,21 @@ export default function Home() {
                   >
                     Remove
                   </button>
-                  <button className="btn btn-success btn-sm">Buy</button>
+                  <button className="btn btn-success btn-md">
+                    Buy
+                  </button>
                 </div>
               </div>
             </div>
           ))}
           <div className="cart-summary shadow-lg p-4 rounded mt-4 bg-light">
             <h4 className="fw-bold">Order Summary</h4>
-            <p>Total Items: <b>{totalItems}</b></p>
-            <p>Total Amount: <b>${totalAmount.toFixed(2)}</b></p>
+            <p>
+              Total Items: <b>{totalItems}</b>
+            </p>
+            <p>
+              Total Amount: <b>${totalAmount.toFixed(2)}</b>
+            </p>
             <button
               className="btn btn-primary w-100 mt-3 rounded-pill"
               onClick={handleBuyAll}

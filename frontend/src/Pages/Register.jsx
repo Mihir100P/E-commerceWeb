@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Spinner } from "react-bootstrap";
 import { BsGoogle, BsFacebook, BsTwitterX } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "react-toastify";
+import AuthContext from "../context/authContext";
 
 const Register = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { reg } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -30,9 +32,9 @@ const Register = () => {
       });
 
       if (result.data.success) {
-        localStorage.setItem("token", result.data.token);
-        navigate("/login");
-        toast.success("Registration done.Login now");
+        reg(result.data.token,result.data.user);
+        navigate('/',{ replace: true });
+        toast.success("Registration done.");
       } else {
         setError("Signup failed, please try again");
       }
