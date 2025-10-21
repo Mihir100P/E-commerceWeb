@@ -16,7 +16,7 @@ router.post("/signup", async (req, res) => {
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
-    const payload = { id: newUser._id, name: newUser.name, email: newUser.email };
+    const payload = { id: newUser._id,role: "user", name: newUser.name, email: newUser.email };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2h" });
 
     res.json({ msg: "User registered", success: true, token, user: payload });
@@ -35,7 +35,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials", success: false });
 
-    const payload = { id: user._id, name: user.name, email: user.email };
+    const payload = { id: user._id,role: "user", name: user.name, email: user.email };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     res.json({ token, user: payload, success: true });

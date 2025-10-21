@@ -1,39 +1,43 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Spinner } from "react-bootstrap";
 import { BsGoogle, BsFacebook, BsTwitterX } from "react-icons/bs";
 import axios from "axios";
-import AuthContext from "../context/authContext";
 import { toast } from "react-toastify";
+import AuthContext from "../context/authContext";
 
-const Login = () => {
-  const { login } = useContext(AuthContext);
+const Adminregister = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { Adminreg } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
   const navigate = useNavigate();
+  const password = watch("password", "");
 
   const onSubmit = async (data) => {
     setIsLoading(true);
     setError("");
 
     try {
-      const result = await axios.post("/api/user/login", {
+      const result = await axios.post("/api/admin/signup", {
+        name: data.name,
         email: data.email,
         password: data.password,
+        companyname:data.companyname,
       });
 
       if (result.data.success) {
-        login(result.data.token, result.data.user);
-        toast.success("Login successfully done!");
-        navigate("/");
+        Adminreg(result.data.token,result.data.admin);
+        navigate('/admin/home',{ replace: true });
+        toast.success("registration done.");
       } else {
-        setError("Wrong credentials or not registered");
+        setError("Signup failed, please try again");
       }
     } catch (err) {
       console.error(err);
@@ -47,15 +51,47 @@ const Login = () => {
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
       <div className="shadow-lg border-0 rounded-4" style={{ width: "28rem" }}>
         <div className="p-5">
-          <h1 className="fw-bold text-center mb-2 text-primary">Customer</h1>
-          <h2 className="fw-bold text-center mb-2">Welcome Back</h2>
-          <p className="text-muted text-center mb-4">Sign in to continue to your account</p>
+          <h1 className="fw-bold text-center mb-2 text-primary">Seller</h1>
+          <h2 className="fw-bold text-center mb-2">Create Account</h2>
+          <p className="text-muted text-center mb-4">
+            Join as Seller
+          </p>
 
           {error && (
             <div className="alert alert-danger text-center py-2 mb-3">{error}</div>
           )}
 
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Name</label>
+              <input
+                type="text"
+                className={`form-control rounded-3 ${
+                  errors.name ? "is-invalid" : ""
+                }`}
+                placeholder="John Doe"
+                {...register("name", { required: "Name is required" })}
+              />
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name.message}</div>
+              )}
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Company name</label>
+              <input
+                type="text"
+                className={`form-control rounded-3 ${
+                  errors.name ? "is-invalid" : ""
+                }`}
+                placeholder="John Doe"
+                {...register("companyname", { required: "Company Name is required" })}
+              />
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name.message}</div>
+              )}
+            </div>
+
             <div className="mb-3">
               <label className="form-label fw-semibold">Email</label>
               <input
@@ -91,10 +127,36 @@ const Login = () => {
                     value: 6,
                     message: "Password must be at least 6 characters",
                   },
+                  pattern: {
+                    value: /^(?=.*[A-Z])(?=.*\d).{6,}$/,
+                    message:
+                      "Password must contain at least one uppercase letter and one number",
+                  },
                 })}
               />
               {errors.password && (
                 <div className="invalid-feedback">{errors.password.message}</div>
+              )}
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label fw-semibold">Confirm Password</label>
+              <input
+                type="password"
+                className={`form-control rounded-3 ${
+                  errors.confirmPassword ? "is-invalid" : ""
+                }`}
+                placeholder="Re-enter your password"
+                {...register("confirmPassword", {
+                  required: "Please confirm your password",
+                  validate: (value) =>
+                    value === password || "Passwords do not match",
+                })}
+              />
+              {errors.confirmPassword && (
+                <div className="invalid-feedback">
+                  {errors.confirmPassword.message}
+                </div>
               )}
             </div>
 
@@ -110,7 +172,7 @@ const Login = () => {
               >
                 {isLoading ? (
                   <>
-                    <Spinner animation="border" size="sm" /> Logging in...
+                    <Spinner animation="border" size="sm" /> Creating account...
                   </>
                 ) : (
                   "Continue"
@@ -137,16 +199,17 @@ const Login = () => {
             </button>
           </div>
 
-          <p className="text-center mt-3">
-            Don’t have an account?{" "}
-            <Link to="/register" className="fw-semibold text-decoration-none">
-              Sign up
-            </Link>
+          <p className="text-muted text-center small">
+            By continuing you confirm that you agree with our{" "}
+            <a href="#" className="text-decoration-none">
+              Terms & Conditions
+            </a>
           </p>
+
           <p className="text-center mt-3">
-            Login as seller{" "}
+            Already have an account?{" "}
             <Link to="/admin/login" className="fw-semibold text-decoration-none">
-              Login
+              Sign in
             </Link>
           </p>
         </div>
@@ -155,4 +218,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Adminregister;

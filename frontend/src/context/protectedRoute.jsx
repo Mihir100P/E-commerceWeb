@@ -4,7 +4,7 @@ import AuthContext from "./authContext";
 import { Spinner, Container } from "react-bootstrap";
 
 const ProtectedRoute = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user, admin, loading } = useContext(AuthContext);
 
   if (loading) {
     return (
@@ -14,7 +14,15 @@ const ProtectedRoute = () => {
     );
   }
 
-  return user ? <Outlet /> : <Navigate to="/login" replace />;
+  if (user || admin) {
+    return <Outlet />;
+  }
+
+  return admin ? (
+    <Navigate to="/admin/login" replace />
+  ) : (
+    <Navigate to="/login" replace />
+  );
 };
 
 export default ProtectedRoute;

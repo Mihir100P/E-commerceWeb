@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import Card from "../Components/Card";
 import Sidebar from "../Components/Sidebar";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Home({search}) {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const token = localStorage.getItem("userToken");
 useEffect(() => {
   async function getItems() {
     try {
@@ -17,7 +18,7 @@ useEffect(() => {
         url = `/api/items/search?q=${encodeURIComponent(search)}`;
       }
 
-      const result = await axios.get(url, { withCredentials: true });
+      const result = await axios.get(url, { withCredentials: true,headers:{Authorization:`Bearer ${token}`} });
 
       if (result?.data?.success) {
         setItems(result.data.items);    
@@ -31,7 +32,7 @@ useEffect(() => {
   }
 
   getItems();
-}, [search]);
+}, [search,token]);
 
 
 
@@ -56,10 +57,25 @@ useEffect(() => {
 
   return (
     <div className="container-fluid my-4">
-      <h1 className="text-center mb-4 fw-bold text-primary">
+      <h1 className="text-center p-4 fw-bold text-primary">
         Welcome to ShopEase
       </h1>
-
+      <div className="d-flex gap-3 mb-3 justify-content-end">
+      <Link className="text-white fw-semibold btn btn-primary mb-3" to="/orders" style={{
+                  background: "linear-gradient(90deg, #4e73df, #224abe)",
+                  border: "none",
+                }}>Recent Orders</Link>
+      <Link
+                    className="text-white fw-semibold btn btn-primary mb-3"
+                    to="/cart"
+                    style={{
+                  background: "linear-gradient(90deg, #4e73df, #224abe)",
+                  border: "none",
+                }}
+                  >
+                    View Cart
+                  </Link>
+        </div>
       <div className="row">
         <div className="col-md-3 mb-4">
           <div className="card shadow-sm border-0 rounded-3">
@@ -89,7 +105,9 @@ useEffect(() => {
                     name={item.name}
                     price={item.price}
                     category={item.category}
+                    company={item.company}
                     image={item.image}
+                    maxQuantity={item.maxQuantity}
                   />
                 </div>
               ))}

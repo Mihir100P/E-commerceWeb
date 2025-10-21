@@ -3,7 +3,7 @@ import { useContext } from "react";
 import AuthContext from "../context/authContext";
 import { toast } from "react-toastify";
 
-export default function Card({ id, name, price, category, image }) {
+export default function Card({ id, name, price, category, image , maxQuantity, company}) {
   const { user } = useContext(AuthContext);
 
   async function handleSubmit(e) {
@@ -14,7 +14,7 @@ export default function Card({ id, name, price, category, image }) {
       return;
     }
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("userToken");
 
     try {
       const res = await axios.post(
@@ -63,16 +63,29 @@ export default function Card({ id, name, price, category, image }) {
 
       <div className="card-body d-flex flex-column">
         <h5 className="card-title fw-semibold">{name}</h5>
-        <p className="card-text text-muted small mb-1">Category: {category}</p>
+        <h6 className="card-text small mb-1">{company}</h6>
+        <p className="card-text text-muted small mb-1">{category}</p>
+        <p className="card-text text-muted small mb-1">Available Quantity: {maxQuantity}</p>
         <p className="card-text fw-bold text-success fs-5 mb-3">
-          ${price.toFixed(2)}
+          ₹{price.toFixed(2)}
         </p>
+        {maxQuantity<=0?
+        <button
+          className="btn btn-danger mt-auto rounded-pill"
+        >
+          Out of Stock
+        </button>:
         <button
           onClick={handleSubmit}
           className="btn btn-primary mt-auto rounded-pill"
+          style={{
+                  background: "linear-gradient(90deg, #4e73df, #224abe)",
+                  border: "none",
+                }}
         >
           🛒 Add to Cart
         </button>
+        }
       </div>
     </div>
   );

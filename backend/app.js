@@ -8,6 +8,7 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,"/public")));
@@ -35,10 +36,16 @@ main().then((res)=>{
 const authRoutes = require("./routes/auth");
 const itemRoutes = require("./routes/items");
 const cartRoutes = require("./routes/cart");
+const adminAuthRoutes = require("./routes/adminAuth");
+const adminItem = require("./routes/adminItem");
+const manageOrder = require("./routes/manageOrder");
 
 app.use("/api/user", authRoutes);
 app.use("/api/items", itemRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/admin", adminAuthRoutes);
+app.use("/api/admin/items", adminItem);
+app.use("/api/order",manageOrder);
 
 
 app.use(express.static(path.join(__dirname, "../frontend/dist")));

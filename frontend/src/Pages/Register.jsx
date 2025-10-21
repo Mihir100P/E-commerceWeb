@@ -48,8 +48,9 @@ const Register = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-      <div className="card shadow-lg border-0 rounded-4" style={{ width: "28rem" }}>
-        <div className="card-body p-5">
+      <div className="shadow-lg border-0 rounded-4" style={{ width: "28rem" }}>
+        <div className="p-5">
+          <h1 className="fw-bold text-center mb-2 text-primary">Customer</h1>
           <h2 className="fw-bold text-center mb-2">Create Account</h2>
           <p className="text-muted text-center mb-4">
             Join us and start your shopping journey

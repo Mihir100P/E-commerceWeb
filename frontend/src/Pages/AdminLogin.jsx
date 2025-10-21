@@ -7,8 +7,8 @@ import axios from "axios";
 import AuthContext from "../context/authContext";
 import { toast } from "react-toastify";
 
-const Login = () => {
-  const { login } = useContext(AuthContext);
+const AdminLogin = () => {
+  const { AdminLogin } = useContext(AuthContext);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -23,15 +23,15 @@ const Login = () => {
     setError("");
 
     try {
-      const result = await axios.post("/api/user/login", {
+      const result = await axios.post("/api/admin/Login", {
         email: data.email,
         password: data.password,
       });
 
       if (result.data.success) {
-        login(result.data.token, result.data.user);
-        toast.success("Login successfully done!");
-        navigate("/");
+        AdminLogin(result.data.token, result.data.admin);
+        toast.success("AdminLogin successfully done!");
+        navigate("/admin/home");
       } else {
         setError("Wrong credentials or not registered");
       }
@@ -47,7 +47,7 @@ const Login = () => {
     <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
       <div className="shadow-lg border-0 rounded-4" style={{ width: "28rem" }}>
         <div className="p-5">
-          <h1 className="fw-bold text-center mb-2 text-primary">Customer</h1>
+          <h1 className="fw-bold text-center mb-2 text-primary">Seller</h1>
           <h2 className="fw-bold text-center mb-2">Welcome Back</h2>
           <p className="text-muted text-center mb-4">Sign in to continue to your account</p>
 
@@ -139,13 +139,13 @@ const Login = () => {
 
           <p className="text-center mt-3">
             Don’t have an account?{" "}
-            <Link to="/register" className="fw-semibold text-decoration-none">
+            <Link to="/admin/register" className="fw-semibold text-decoration-none">
               Sign up
             </Link>
           </p>
           <p className="text-center mt-3">
-            Login as seller{" "}
-            <Link to="/admin/login" className="fw-semibold text-decoration-none">
+            Login as Customer{" "}
+            <Link to="/login" className="fw-semibold text-decoration-none">
               Login
             </Link>
           </p>
@@ -155,4 +155,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

@@ -22,9 +22,9 @@ export default function Sidebar({ onFilter }) {
     const value = e.target.value;
     let range = null;
 
-    if (value === "low") range = [0, 100];
-    if (value === "mid") range = [100, 500];
-    if (value === "high") range = [500, 1000];
+    if (value === "low") range = [0, 1000];
+    if (value === "mid") range = [1000, 5000];
+    if (value === "high") range = [5000, 10000];
 
     setPriceRange(range);
     onFilter({ category, priceRange: range });
@@ -87,6 +87,15 @@ export default function Sidebar({ onFilter }) {
         />
         <label className="form-check-label">Home & Kitchen</label>
       </div>
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          value="mobile"
+          onChange={handleCategoryChange}
+        />
+        <label className="form-check-label">Mobile</label>
+      </div>
 
       <hr />
 
@@ -99,7 +108,7 @@ export default function Sidebar({ onFilter }) {
           value="low"
           onChange={handlePriceChange}
         />
-        <label className="form-check-label">Under $100</label>
+        <label className="form-check-label">Under ₹1000</label>
       </div>
       <div className="form-check">
         <input
@@ -109,7 +118,7 @@ export default function Sidebar({ onFilter }) {
           value="mid"
           onChange={handlePriceChange}
         />
-        <label className="form-check-label">$100 - $500</label>
+        <label className="form-check-label">₹1000 - ₹5000</label>
       </div>
       <div className="form-check">
         <input
@@ -119,7 +128,7 @@ export default function Sidebar({ onFilter }) {
           value="high"
           onChange={handlePriceChange}
         />
-        <label className="form-check-label">$500 - $1000</label>
+        <label className="form-check-label">₹5000 - ₹10000</label>
       </div>
     </div>
   );

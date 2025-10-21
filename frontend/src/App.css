@@ -159,18 +159,4 @@
   background-color: #a71d2a;
 }
 
-.buy-btn {
-  margin-left: 20px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background-color: #2d7ff2;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.buy-btn:hover {
-  background-color: #3345ac;
-}
 
