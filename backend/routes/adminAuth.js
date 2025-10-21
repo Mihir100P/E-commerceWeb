@@ -2,11 +2,18 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
+
 const router = express.Router();
 
+require("dotenv").config();
+
+const JWT_SECRET = process.env.JWT_ADMIN_SECRET || "temporary_admin_secret";
+
 router.post("/signup", async (req, res) => {
-    console.log('recieved');
-  const { name, email,companyname, password } = req.body;
+  console.log("Received signup request");
+
+  const { name, email, companyname, password } = req.body;
+
   try {
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
@@ -14,35 +21,68 @@ router.post("/signup", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newAdmin = new Admin({ name, email, companyname, password: hashedPassword });
+
+    const newAdmin = new Admin({
+      name,
+      email,
+      companyname,
+      password: hashedPassword,
+    });
     await newAdmin.save();
 
-    const payload = { id: newAdmin._id,role: "admin",name: newAdmin.name, company:newAdmin.companyname, email: newAdmin.email };
-    const token = jwt.sign(payload, process.env.JWT_ADMIN_SECRET, { expiresIn: "2h" });
+    const payload = {
+      id: newAdmin._id,
+      role: "admin",
+      name: newAdmin.name,
+      company: newAdmin.companyname,
+      email: newAdmin.email,
+    };
 
-    res.json({ msg: "Admin registered", success: true, token, admin: payload });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "2h" });
+
+    res.status(201).json({
+      msg: "Admin registered successfully",
+      success: true,
+      token,
+      admin: payload,
+    });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Server error", success: false });
+    console.error("Signup Error:", err);
+    res.status(500).json({ msg: "Server error during signup", success: false });
   }
 });
 
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+
   try {
     const admin = await Admin.findOne({ email });
-    if (!admin) return res.status(400).json({ msg: "Admin not found", success: false });
+    if (!admin)
+      return res.status(400).json({ msg: "Admin not found", success: false });
 
     const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials", success: false });
+    if (!isMatch)
+      return res.status(400).json({ msg: "Invalid credentials", success: false });
 
-    const payload = { id: admin._id,role: "admin", name: admin.name, email: admin.email };
-    const token = jwt.sign(payload, process.env.JWT_ADMIN_SECRET, { expiresIn: "1h" });
+    const payload = {
+      id: admin._id,
+      role: "admin",
+      name: admin.name,
+      email: admin.email,
+    };
 
-    res.json({ token, admin: payload, success: true });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+
+    res.json({
+      msg: "Login successful",
+      success: true,
+      token,
+      admin: payload,
+    });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Server error", success: false });
+    console.error("Login Error:", err);
+    res.status(500).json({ msg: "Server error during login", success: false });
   }
 });
 
