@@ -79,8 +79,8 @@ export default function AdminOrder() {
             <p><strong>Quantity:</strong> {order.quantity}</p>
             <p><strong>Date:</strong> {new Date(order.date).toLocaleString()}</p>
             <p><strong>Status:</strong> {order.status}</p>
-
-            <form onSubmit={(e) => updateStatus(e, order._id)}>
+            {order.status=="cancelled"?<></>:
+            <form onSubmit={(e) => updateStatus(e, order._id)} >
               <label className="me-2 fw-bold">Update Status:</label>
               <select
                 name="status"
@@ -100,6 +100,7 @@ export default function AdminOrder() {
                 Update
               </Button>
             </form>
+            }
             </div>
             </div>
           </div>
