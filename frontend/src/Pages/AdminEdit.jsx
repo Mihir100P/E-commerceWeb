@@ -209,7 +209,7 @@ export default function AdminEdit() {
               >
                 {Loading ? (
                   <>
-                    <Spinner animation="border" size="sm" /> Logging in...
+                    <Spinner animation="border" size="sm" />
                   </>
                 ) : (
                   "Continue"

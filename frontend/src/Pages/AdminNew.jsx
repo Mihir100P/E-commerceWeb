@@ -179,7 +179,7 @@ export default function AdminNew() {
               >
                 {isLoading ? (
                   <>
-                    <Spinner animation="border" size="sm" /> Logging in...
+                    <Spinner animation="border" size="sm" />
                   </>
                 ) : (
                   "Continue"
