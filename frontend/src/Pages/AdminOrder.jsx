@@ -56,13 +56,13 @@ export default function AdminOrder() {
   }
 
   return (
-    <div className="cart-container p-4">
+    <div className="cart-container ">
       <h3 className="cart-title mb-4 text-primary">All Orders</h3>
       {orders.length === 0 ? (
         <p className="empty-cart">No orders found.</p>
       ) : (
         orders.map((order) => (
-          <div key={order._id} className="border p-3 mb-2 rounded offset-2 my-4" style={{maxWidth:"800px"}}>
+          <div key={order._id} className="border p-3 mb-2 rounded my-4" style={{maxWidth:"800px"}}>
              <div className="row">
               <div className="col cart-img me-3">
                 <img

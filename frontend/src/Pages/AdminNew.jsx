@@ -57,15 +57,15 @@ export default function AdminNew() {
 
   return (
     <>
-    <div className='m-5 p-5'>
+    <div className='my-5 p-5'>
       <h1 className="text-center mb-4 text-primary">Sell a new product</h1>
       {error && (
-            <div className="alert alert-danger text-center py-2 m-3">{error}</div>
+            <div className="alert alert-danger text-center py-2 my-3">{error}</div>
           )}
 
         <div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="m-3">
+            <div className="my-3">
               <label className="form-label fw-semibold">Item name</label>
               <input
                 type="text"
@@ -82,7 +82,7 @@ export default function AdminNew() {
               )}
             </div>
 
-            <div className="m-3">
+            <div className="my-3">
               <label className="form-label fw-semibold">Price</label>
               <input
                 type="number"
@@ -99,7 +99,7 @@ export default function AdminNew() {
               )}
             </div>
 
-            <div className="m-3">
+            <div className="my-3">
               <label className="form-label fw-semibold">Category</label>
               <input
                 type="text"
@@ -116,7 +116,7 @@ export default function AdminNew() {
               )}
             </div>
 
-             <div className="m-3">
+             <div className="my-3">
               <label className="form-label fw-semibold">Image link</label>
               <input
                 type="text"
@@ -133,7 +133,7 @@ export default function AdminNew() {
               )}
             </div>
 
-             <div className="m-3">
+             <div className="my-3">
               <label className="form-label fw-semibold">Company name</label>
               <input
                 type="text"
@@ -150,7 +150,7 @@ export default function AdminNew() {
               )}
             </div>
 
-            <div className="m-3">
+            <div className="my-3">
               <label className="form-label fw-semibold">Max Quantity</label>
               <input
                 type="number"

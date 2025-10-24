@@ -71,7 +71,7 @@ const handleDelete = async (id)=>{
                   border: "none",
                 }} >Manage orders</Link>
         </div>
-      <div className="mx-5 px-5 my-5">
+      <div>
           <h4 className="mb-3 text-center">Your Items</h4>
           {loading ? (
             <div className="text-center my-5">
@@ -101,6 +101,6 @@ const handleDelete = async (id)=>{
             <p className="text-center text-muted">No items found</p>
           )}
       </div>
-    </div>
+      </div>
   );
 }
